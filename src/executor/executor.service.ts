@@ -19,7 +19,7 @@ export class ExecutorService {
                   return this.productService.add(data);
 
                case "update":
-                  return this.productService.update(userId, data);
+                  return this.productService.update(userId, data)
 
                case "get":
                   return this.productService.get(data);
