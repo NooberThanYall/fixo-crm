@@ -23,6 +23,10 @@ export class UserService {
       return this.userRepo.findOne({ where: { id }, relations: ['products'] });
    }
 
+   async findByPhone(phone: string) {
+      return this.userRepo.findOne({ where: { phone }, relations: ['products'] });
+   }
+
    async findByEmail(email: string) {
       return this.userRepo.findOne({ where: { email } });
    }

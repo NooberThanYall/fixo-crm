@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
+import { DeleteResult } from 'typeorm/browser';
 
 @Entity()
 export class Product {
@@ -17,14 +18,16 @@ export class Product {
 
    @Column({ nullable: true })
    description?: string;
-
-   // Functionality left for later
-   // @Column({ nullable: true })
-   // imageUrl?: string;
-
+   
    @Column({ type: 'jsonb', nullable: true })
    customFields?: Record<string, any>;
-
+   
    @ManyToOne(() => User, { onDelete: 'CASCADE' })
    owner: User;
 }
+
+export type AddedProduct = Product | DeleteResult | null;
+
+// Functionality left for later
+// @Column({ nullable: true })
+// imageUrl?: string;

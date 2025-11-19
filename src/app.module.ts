@@ -5,17 +5,21 @@ import { ProductModule } from './product/product.module';
 import { ExecutorModule } from './executor/executor.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { CacheModule } from '@nestjs/cache-manager';
+import { PreviewModule } from './preview/preview.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
     type: "postgres",
     host: "localhost",
-    port: 55432,
+    port: 55433,
     username: "postgres",
     password: "password",
     database: "fixocrm",
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true
-  }), AiModule, ProductModule, ExecutorModule, UserModule, AuthModule]
+  }),
+  CacheModule.register({isGlobal: true}),
+    AiModule, ProductModule, ExecutorModule, UserModule, AuthModule, PreviewModule]
 })
-export class AppModule {}
+export class AppModule { }
