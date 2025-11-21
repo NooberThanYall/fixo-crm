@@ -24,6 +24,7 @@ export interface Task {
 
 @Injectable()
 export class AiService {
+<<<<<<< HEAD
    constructor(
       private readonly promptBuilder: PromptBuilder,
       private readonly userService: UserService,
@@ -38,11 +39,35 @@ export class AiService {
       
       const userFields = user?.fields || ['name', 'price', 'stock'];
 
+=======
+   
+   private readonly API_KEY = process.env.API_KEY;
+
+   constructor(
+      private readonly promptBuilder: PromptBuilder,
+      private readonly userService: UserService,
+      private readonly productService: ProductService,
+      private readonly modelClient: ModelClient
+   ) { }
+
+   async promptToPreview(userPrompt: string, userId: string, execute: boolean = false) {
+
+      const user = await this.userService.findById(userId);
+      
+      const userFields = user?.fields || ['name', 'price', 'stock'];
+
+>>>>>>> 9ab07af (some changes)
       const prompt = this.promptBuilder
       .setUserFields(userFields)
       .setUserPrompt(userPrompt)
       .buildPrompt()
       
+
+ 
+      // entity: "product" | "order" | string;
+      // action: "add" | "update" | "get" | "delete";
+      // data: Record<string, any>;
+      // queries: Record<string, any>;
 
       const aiResponse = await this.modelClient.generate(prompt);
 

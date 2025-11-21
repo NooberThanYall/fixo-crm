@@ -7,10 +7,10 @@ export class TaskParser {
   private raw: string;
 
   setAIPrompt(raw: string) {
-    this.raw = raw.trim();
+    this.raw = raw.trim();  
   }
 
-  async parse(): Promise<Task> {
+  parse(): Task {
     const json = this.parseJSON();
     const normalized = this.normalize(json);
     const validated = this.validate(normalized);
