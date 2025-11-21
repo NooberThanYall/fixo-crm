@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import * as ExcelJS from 'exceljs';
 import * as fs from 'fs';
 
@@ -92,7 +92,7 @@ export class ProductService {
       where[key] = ILike(`%${value}%`);
     }
 
-    return this.repo.find({ where });
+    return this.productRepo.find({ where });
   }
 
 }
