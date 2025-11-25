@@ -21,7 +21,8 @@ export class AiController {
 
 	@Post('')
 	aiTask(@Body('prompt') prompt: string, @Req() req: Request) {
-		return this.aiService.promptToService(prompt, req.user.id);
+		// @ts-expect-error req user
+		return this.aiService.promptToPreview(prompt, req.user.id);
 	}
 
 	@Post('voice')
@@ -38,6 +39,8 @@ export class AiController {
 		@UploadedFile() file: Express.Multer.File,
 		@Req() req: Request
 	) {
+		// @ts-expect-error req user
+
 		return this.aiService.transcribeAndExecute(file.path, req.user.id);
 	}
 }

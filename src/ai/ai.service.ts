@@ -84,22 +84,22 @@ export class AiService {
    }
 
 
-   async transcribeAndExecute(filePath: string, userId: string) {
-      // 1. Transcribe Persian audio
-      const transcription = await this.openai.audio.transcriptions.create({
-         file: fs.createReadStream(filePath),
-         model: 'whisper-1',
-         language: 'fa', // Persian
-      });
+   // async transcribeAndExecute(filePath: string, userId: string) {
+   //    // 1. Transcribe Persian audio
+   //    const transcription = await this.openai.audio.transcriptions.create({
+   //       file: fs.createReadStream(filePath),
+   //       model: 'whisper-1',
+   //       language: 'fa', // Persian
+   //    });
 
-      const text = transcription.text;
+   //    const text = transcription.text;
 
-      // 2. Execute the task from transcription
-      const result = await this.promptToPreview(text, userId);
+   //    // 2. Execute the task from transcription
+   //    const result = await this.promptToPreview(text, userId);
 
-      // 3. Clean up file
-      fs.unlinkSync(filePath);
+   //    // 3. Clean up file
+   //    fs.unlinkSync(filePath);
 
-      return { text, result };
-   }
+   //    return { text, result };
+   // }
 }
