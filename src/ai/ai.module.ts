@@ -16,8 +16,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     AiService,
     PromptBuilder,
     TaskParser,
-    ProductService,
-    UserService,
     ModelClient
   ],
   imports: [

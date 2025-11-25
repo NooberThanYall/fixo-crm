@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { PreviewService } from './preview.service';
+import { ProductModule } from 'src/product/product.module';
 
 @Module({
-  providers: [PreviewService]
+  providers: [PreviewService],
+  imports: [ProductModule]
 })
 export class PreviewModule {}
