@@ -12,7 +12,7 @@ import { PreviewModule } from './preview/preview.module';
   imports: [TypeOrmModule.forRoot({
     type: "postgres",
     host: "localhost",
-    port: 55433,
+    port: 55432,
     username: "postgres",
     password: "password",
     database: "fixocrm",
