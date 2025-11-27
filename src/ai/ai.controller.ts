@@ -9,20 +9,31 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { AiService } from './ai.service';
+import { AiService, Task } from './ai.service';
 import { AuthGuard } from 'src/guard/auth.guard';
 import type { Request } from 'express';
 import * as path from 'path';
+import { PreviewService } from 'src/preview/preview.service';
 
 @UseGuards(AuthGuard)
 @Controller('ai')
 export class AiController {
-	constructor(private readonly aiService: AiService) { }
+	constructor(
+		private readonly aiService: AiService,
+		private readonly previewService: PreviewService
+	) { }
 
 	@Post('')
-	aiTask(@Body('prompt') prompt: string, @Req() req: Request) {
-		// @ts-expect-error req user
-		return this.aiService.promptToPreview(prompt, req.user.id);
+	async aiTask(@Body('prompt') prompt: string, @Req() req: Request) {
+		// @ts-expect-error req user undefined Type ------------------------
+		const {id: userId} = req.user;
+
+
+		const task: Task = await this.aiService.promptToTask(prompt, userId);
+
+		this.previewService.setTask(task);
+		return this.previewService.preview(userId)
+
 	}
 
 	@Post('voice')

@@ -48,7 +48,7 @@ export class PreviewService {
     // -----------------------------
     //  PREVIEW: ADD
     // -----------------------------
-    async previewAdd(): Promise<PreviewResult> {
+    private async previewAdd(): Promise<PreviewResult> {
         const product = new Product();
         Object.assign(product, this.task.data);
 
@@ -60,7 +60,7 @@ export class PreviewService {
     // -----------------------------
     //  PREVIEW: UPDATE
     // -----------------------------
-    async previewUpdate(userId: string): Promise<PreviewResult> {
+    private async previewUpdate(userId: string): Promise<PreviewResult> {
         const { queries, data } = this.task;
 
         const products = await this.productService.findByQuery(userId, queries);
@@ -83,7 +83,7 @@ export class PreviewService {
     // -----------------------------
     //  PREVIEW: DELETE
     // -----------------------------
-    async previewDelete(userId: string): Promise<PreviewResult> {
+    private async previewDelete(userId: string): Promise<PreviewResult> {
         const { queries } = this.task;
 
         const products = await this.productService.findByQuery(userId, queries);
@@ -107,7 +107,7 @@ export class PreviewService {
     // -----------------------------
     //  PREVIEW: GET
     // -----------------------------
-    async previewGet(userId: string): Promise<PreviewResult> {
+    private async previewGet(userId: string): Promise<PreviewResult> {
         const { queries } = this.task;
 
         const products = await this.productService.findByQuery(userId, queries);

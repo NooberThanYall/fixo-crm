@@ -32,7 +32,7 @@ export class AiService {
       private readonly modelClient: ModelClient
    ) { }
 
-   async promptToPreview(userPrompt: string, userId: string, execute: boolean = false) {
+   async promptToTask(userPrompt: string, userId: string, execute: boolean = false) {
 
       const user = await this.userService.findById(userId);
       
@@ -53,10 +53,10 @@ export class AiService {
       const aiResponse = await this.modelClient.generate(prompt);
 
       this.taskParser.setAIPrompt(aiResponse);
-      const parsedTask = await this.taskParser.parse();
+      const parsedTask = this.taskParser.parse();
 
-      return { parsedTask };
-      
+      return parsedTask;
+
    }
 
 

@@ -38,7 +38,7 @@ export class AuthController {
          password: hashedPassword,
          verified: false,
       });
-
+1
       return res.status(200).json({ user });
    }
 
