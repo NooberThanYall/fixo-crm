@@ -56,6 +56,7 @@ export class AiService {
       const parsedTask = await this.taskParser.parse();
 
       return { parsedTask };
+      
    }
 
 
