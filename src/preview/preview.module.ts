@@ -4,6 +4,7 @@ import { ProductModule } from 'src/product/product.module';
 
 @Module({
   providers: [PreviewService],
-  imports: [ProductModule]
+  imports: [ProductModule],
+  exports: [PreviewService]
 })
 export class PreviewModule {}

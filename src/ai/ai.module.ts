@@ -9,6 +9,7 @@ import { ModelClient } from './model/model-client';
 import { ProductModule } from 'src/product/product.module';
 import { UserModule } from 'src/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PreviewModule } from 'src/preview/preview.module';
 
 @Module({
   controllers: [AiController],
@@ -19,7 +20,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     ModelClient
   ],
   imports: [
-    ProductModule,       
+    ProductModule,   
+    PreviewModule,    
     UserModule,          
     TypeOrmModule.forFeature([]), 
   ],
