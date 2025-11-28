@@ -15,6 +15,8 @@ import { encrypt, decrypt } from 'src/utils/jwt';
 import { User } from '../user/entities/user.entity';
 import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
 import { MESSAGES } from '../common/constants/ErrorMessages';
+import { SignUpDto } from './dto/signup.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +26,7 @@ export class AuthController {
    ) { }
 
    @Post('signup')
-   async signup(@Body() body: any, @Res() res: Response) {
+   async signup(@Body() body: SignUpDto, @Res() res: Response) {
       const existingUser = await this.userService.findByEmail(body.email);
       if (existingUser) {
          return res
@@ -71,7 +73,7 @@ export class AuthController {
    }
 
    @Post('login')
-   async login(@Body() body: any, @Res() res: Response) {
+   async login(@Body() body: LoginDto, @Res() res: Response) {
       const user: User | null = await this.userService.findByEmail(body.email);
       if (!user) {
          return res.status(401).json({
