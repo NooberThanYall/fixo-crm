@@ -17,7 +17,7 @@ import { PreviewModule } from 'src/preview/preview.module';
     AiService,
     PromptBuilder,
     TaskParser,
-    ModelClient
+    ModelClient 
   ],
   imports: [
     ProductModule,   
