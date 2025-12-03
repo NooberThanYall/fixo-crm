@@ -10,9 +10,9 @@ import {
 
 export class SignUpDto {
 
-  @IsEmail({}, { message: 'Email must be a valid email address.' })
-  @IsNotEmpty({ message: 'Email is required.' })
-  email: string;
+  // @IsEmail({}, { message: 'Email must be a valid email address.' })
+  // @IsNotEmpty({ message: 'Email is required.' })
+  // email: string;
 
 
   @IsString({ message: 'Password must be a string.' })

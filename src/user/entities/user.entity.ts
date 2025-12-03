@@ -6,14 +6,22 @@ export class User {
    @PrimaryGeneratedColumn('uuid')
    id: string;
 
-   @Column()
-   verified: Boolean;
+   @Column({ unique: true })
+   phone: string;
+
+   @Column({ default: false })
+   verified: boolean;
+
+   @Column({ type: "varchar", nullable: true })
+   verificationCode?: string | null;
+
+   @Column({ type: "timestamp", nullable: true })
+   verificationExpires?: Date | null;
+
 
    @Column({ unique: true })
    email: string;
 
-   @Column({ unique: true })
-   phone: string;
 
    @Column()
    password: string;
@@ -21,7 +29,7 @@ export class User {
    @Column({ nullable: true })
    fullName?: string;
 
-   @Column({type: 'jsonb', nullable: true})
+   @Column({ type: 'jsonb', nullable: true })
    fields: string[];
 
    @OneToMany(() => Product, (product) => product.owner)
