@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AiModule } from './ai/ai.module';
 import { ProductModule } from './product/product.module';
@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { PreviewModule } from './preview/preview.module';
+import { AuthMiddleware } from './auth/auth.middleware';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -22,4 +23,10 @@ import { PreviewModule } from './preview/preview.module';
   CacheModule.register({isGlobal: true}),
     AiModule, ProductModule, ExecutorModule, UserModule, AuthModule, PreviewModule]
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes('*'); 
+  }
+}

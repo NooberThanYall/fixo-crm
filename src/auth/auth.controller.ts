@@ -100,8 +100,32 @@ export class AuthController {
 
     const token = this.authService.generateToken(user.id);
 
-    return res.json({ success: true, token });
+    res.cookie("session", token, {
+      httpOnly: true,
+      path: "/",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+
+    return res.status(200).json({ success: true });
   }
+
+  @Post('complete-profile')
+  async completeProfile(
+    @Body() body: Partial<User>,
+    @Req() req: any,
+    @Res() res: Response
+  ) {
+    if (!req.user) {
+      return res.status(401).json({ success: false, message: "Not logged in" });
+    }
+
+    const userId = req.user.id;
+
+    await this.userService.update(userId, body);
+
+    return res.json({ success: true });
+  }
+
 
   // ----------------------
   // LOGIN — front calls /auth/login
