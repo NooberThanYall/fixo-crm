@@ -18,6 +18,7 @@ import { MESSAGES } from '../common/constants/ErrorMessages';
 import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
 import { AuthService } from './auth.service';
+import { success } from 'zod';
 
 @Controller('auth')
 export class AuthController {
@@ -62,53 +63,76 @@ export class AuthController {
       return res.json({ success: false, message: "Verification code re-sent" });
     }
 
-    // when the user exists and is verified.
+    await this.userService.update(user.id, {
+      verificationCode: code,
+      verificationExpires: expires
+    })
 
-    return res.json({
-      success: false,
-      message: "User already verified",
-    });
+    return res.json({ success: true, message: 'Verification Code Sent' })
+
   }
 
   // ----------------------
   // VERIFY — front calls /auth/verify-code
   // ----------------------
   @Post('verify-code')
-  async verify(@Body() body: { phone: string; code: string }, @Res() res: Response) {
+  async verify(
+    @Body() body: { phone: string; code: string },
+    @Res() res: Response
+  ) {
     const { phone, code } = body;
 
+    if (!phone || phone.length !== 11 || !code)
+      return res.status(400).json({
+        success: false,
+        message: "Phone or code missing"
+      });
+
+    // 1. find user
     const user = await this.userService.findByPhone(phone);
-    if (!user) return res.status(400).json({ success: false, message: "User not found" });
+    if (!user)
+      return res.status(404).json({ success: false, message: "User not found" });
 
-    if (user.verified) {
-      return res.json({ success: true, message: "Already verified" });
+    // 2. check exp
+    if (!user.verificationExpires || user.verificationExpires < new Date()) {
+      return res.status(400).json({
+        success: false,
+        message: "Verification code expired"
+      });
     }
 
+    // 3. check code
     if (user.verificationCode !== code) {
-      return res.status(400).json({ success: false, message: "Invalid code" });
+      return res.status(400).json({
+        success: false,
+        message: "Wrong code"
+      });
     }
 
-    // @ts-expect-error fuck
-
-    if (user.verificationExpires < new Date()) {
-      return res.status(400).json({ success: false, message: "Code expired" });
-    }
-
+    // 4. update user as verified
     await this.userService.update(user.id, {
       verified: true,
       verificationCode: null,
-      verificationExpires: null,
+      verificationExpires: null
     });
 
+    // 5. create session token
     const token = this.authService.generateToken(user.id);
 
+    // 6. set cookie (httpOnly = unreadable by browser JS)
     res.cookie("session", token, {
       httpOnly: true,
-      path: "/",
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      secure: true,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
     });
 
-    return res.status(200).json({ success: true });
+    // 7. return user info (with password removed)
+    return res.json({
+      success: true,
+      message: "Logged in",
+      user: { ...user, password: null }
+    });
   }
 
   @Post('complete-profile')
@@ -171,7 +195,7 @@ export class AuthController {
 
     //@ts-expect-error fuck ya
     const user: User = await this.userService.findById(payload.id);
-    return res.json({ user: {...user, password: null} });
+    return res.json({ user: { ...user, password: null } });
   }
 
 
