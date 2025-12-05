@@ -9,15 +9,14 @@ export class AuthGuard implements CanActivate {
 
     //@ts-expect-error fuck you  
     if (request.user) {
-      return true; // middleware already decoded & attached it
+      return true; 
     }
 
-    // optional: you can still support Authorization: Bearer <token> header
-    // but since you're cookie-based, probably not needed
-
-    return false; // no user → blocked
+    return false; 
   }
 }
+
+// -------------------------- old guard with user setter ---------------------- //
 
 
 // import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
