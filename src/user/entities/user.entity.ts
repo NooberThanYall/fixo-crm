@@ -19,11 +19,11 @@ export class User {
    verificationExpires?: Date | null;
 
 
-   @Column({ unique: true })
+   @Column({ unique: true, nullable: true })
    email: string;
 
 
-   @Column()
+   @Column({nullable: true})
    password: string;
 
    @Column({ nullable: true })

@@ -1,12 +1,12 @@
 import {
-   Body,
-   Controller,
-   Post,
-   Res,
-   Get,
-   Req,
-   NotFoundException,
-   Inject,
+  Body,
+  Controller,
+  Post,
+  Res,
+  Get,
+  Req,
+  NotFoundException,
+  Inject,
 } from '@nestjs/common';
 import type { Response, Request } from 'express';
 import * as bcrypt from 'bcryptjs';
@@ -17,13 +17,14 @@ import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
 import { MESSAGES } from '../common/constants/ErrorMessages';
 import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly userService: UserService,
     private readonly authService: AuthService,
-  ) {}
+  ) { }
 
   // ----------------------
   // SIGNUP — front calls /auth/signup
@@ -38,7 +39,7 @@ export class AuthController {
 
     let user = await this.userService.findByPhone(phone);
 
-    const code = Math.floor(10000 + Math.random() * 90000).toString();
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
     const expires = new Date(Date.now() + 2 * 60 * 1000);
 
     if (!user) {
@@ -86,7 +87,7 @@ export class AuthController {
     }
 
     // @ts-expect-error fuck
-    
+
     if (user.verificationExpires < new Date()) {
       return res.status(400).json({ success: false, message: "Code expired" });
     }
@@ -132,16 +133,21 @@ export class AuthController {
   // ----------------------
   // PROFILE
   // ----------------------
-  @Get('profile')
+  @Get("profile")
   async profile(@Req() req: Request, @Res() res: Response) {
     const token = req.cookies?.session;
-    if (!token) return res.status(401).json({ success: false, message: "Not logged in" });
+    if (!token)
+      return res.status(401).json({ success: false, message: "Not logged in" });
 
     const payload = this.authService.decode(token);
-    const user = await this.userService.findById(payload.id);
+    if (!payload)
+      return res.status(401).json({ success: false, message: "Invalid token" });
 
+    //@ts-expect-error fuck ya
+    const user = await this.userService.findById(payload.id);
     return res.json({ user });
   }
+
 
   // ----------------------
   // LOGOUT
@@ -312,16 +318,16 @@ export class AuthController {
 //    }
 // }
 
-   // @Post('verify-check')
-   // async verifyCheck(
-   //    @Body() { code: sentCode, phone }: { code: number; phone: string },
-   //    @Res() res: Response,
-   // ) {
-   //    const cachedCode: number | undefined = await this.cacheManager.get(phone);
+// @Post('verify-check')
+// async verifyCheck(
+//    @Body() { code: sentCode, phone }: { code: number; phone: string },
+//    @Res() res: Response,
+// ) {
+//    const cachedCode: number | undefined = await this.cacheManager.get(phone);
 
-   //    if (cachedCode === sentCode) {
-   //       return res.status(200).json({ success: true });
-   //    }
+//    if (cachedCode === sentCode) {
+//       return res.status(200).json({ success: true });
+//    }
 
-   //    return res.status(401).json({ message: MESSAGES.WRONG_CODE });
-   // }
+//    return res.status(401).json({ message: MESSAGES.WRONG_CODE });
+// }
