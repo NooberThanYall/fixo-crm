@@ -25,7 +25,7 @@ export class AiController {
 
 	@Post('')
 	async aiTask(@Body('prompt') prompt: string, @Req() req: Request) {
-		// @ts-expect-error req user undefined Type ------------------------
+		// @ts-expect-error fuck you
 		const {id: userId} = req.user;
 
 
@@ -50,7 +50,7 @@ export class AiController {
 		@UploadedFile() file: Express.Multer.File,
 		@Req() req: Request
 	) {
-		// @ts-expect-error req user
+		// @ts-expect-error fuck you
 
 		return this.aiService.transcribeAndExecute(file.path, req.user.id);
 	}
