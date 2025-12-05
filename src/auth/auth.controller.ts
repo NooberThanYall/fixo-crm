@@ -122,16 +122,18 @@ export class AuthController {
     // 6. set cookie (httpOnly = unreadable by browser JS)
     res.cookie("session", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+      secure: true, // required for SameSite=None
+      sameSite: "none",
+      partitioned: true, // 🔥 FIXES THE FIREFOX WARNING
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     });
 
     // 7. return user info (with password removed)
     return res.json({
       success: true,
       message: "Logged in",
-      user: { ...user, password: null }
+      user: { ...user, password: null },
+      isNewUser: user.verified
     });
   }
 
@@ -173,8 +175,10 @@ export class AuthController {
 
     res.cookie("session", token, {
       httpOnly: true,
-      path: "/",
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      secure: true,
+      sameSite: "none",
+      partitioned: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     });
 
     return res.json({ success: true, user });
