@@ -34,9 +34,13 @@ export class AuthMiddleware implements NestMiddleware {
 
     const token = req.cookies?.session;
 
+        console.log(token)
+
+
     if (token && this.authService) {
       try {
         const payload = await this.authService.decode(token);
+        console.log(payload)
         if (payload) {
           (req as any).user = payload;
         }
