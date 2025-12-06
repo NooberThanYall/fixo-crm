@@ -122,8 +122,8 @@ export class AuthController {
     // 6. set cookie (httpOnly = unreadable by browser JS)
     res.cookie("session", token, {
       httpOnly: true,
-      secure: true, // required for SameSite=None
-      sameSite: "none",
+      secure: false, // required for SameSite=None
+      sameSite: "lax",
       partitioned: true, // 🔥 FIXES THE FIREFOX WARNING
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     });
