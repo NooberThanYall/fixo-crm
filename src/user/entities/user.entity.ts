@@ -23,7 +23,10 @@ export class User {
    email: string;
 
    @Column({nullable: true})
-   businessName: string | null;
+   businessName: string;
+   
+   @Column({nullable: true})
+   businessType: string ;
 
 
    @Column({nullable: true})
