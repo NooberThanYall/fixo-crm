@@ -28,6 +28,8 @@ export class User {
    @Column({nullable: true})
    businessType: string ;
 
+   @Column({default: false})
+   profileCompleted: boolean;
 
    @Column({nullable: true})
    password: string;

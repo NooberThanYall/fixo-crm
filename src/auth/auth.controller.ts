@@ -119,6 +119,8 @@ export class AuthController {
     // 5. create session token
     const token = this.authService.generateToken(user.id);
 
+    const isNewUser = !user.profileCompleted;
+
     // 6. set cookie (httpOnly = unreadable by browser JS)
     res.cookie("session", token, {
       httpOnly: true,
@@ -133,7 +135,7 @@ export class AuthController {
       success: true,
       message: "Logged in",
       user: { ...user, password: null },
-      isNewUser: user.verified
+      isNewUser,
     });
   }
 
@@ -149,7 +151,10 @@ export class AuthController {
 
     const userId = req.user.id;
 
-    await this.userService.update(userId, body);
+    await this.userService.update(userId, {
+      ...body,
+      profileCompleted: true
+    });
 
     return res.json({ success: true });
   }
