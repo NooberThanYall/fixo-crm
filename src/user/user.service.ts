@@ -16,15 +16,15 @@ export class UserService {
    }
 
    async findAll() {
-      return this.userRepo.find({ relations: ['products'] });
+      return this.userRepo.find({ });
    }
 
    async findById(id: string) {
-      return this.userRepo.findOne({ where: { id }, relations: ['products'] });
+      return this.userRepo.findOne({ where: { id } });
    }
 
    async findByPhone(phone: string) {
-      return this.userRepo.findOne({ where: { phone }, relations: ['products'] });
+      return this.userRepo.findOne({ where: { phone } });
    }
 
    async findByEmail(email: string) {
