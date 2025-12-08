@@ -60,7 +60,7 @@ export class ProductService {
 
     return { message: `${imported.length} products imported successfully`, imported };
   }
-  async add(data: Partial<Product>) {
+  async add(data: Partial<Product>, userId: string) {
     const product = this.productRepo.create(data);
     return this.productRepo.save(product);
   }

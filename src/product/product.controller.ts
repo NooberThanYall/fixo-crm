@@ -15,7 +15,7 @@ export class ProductController {
   @Post()
   create(@Body() createProductDto: CreateProductDto, @Req() req: Request) {
     //@ts-expect-error fuck
-    return this.productService.add(createProductDto, req.user);
+    return this.productService.add(createProductDto, req.user.id);
   }
 
 
