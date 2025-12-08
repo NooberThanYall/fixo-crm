@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Index, JoinColumn } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { DeleteResult } from 'typeorm/browser';
 
@@ -21,8 +21,13 @@ export class Product {
    
    @Column({ type: 'jsonb', nullable: true })
    customFields?: Record<string, any>;
+
+   @Index()
+   @Column()
+   ownerId: string;
    
    @ManyToOne(() => User, { onDelete: 'CASCADE' })
+   @JoinColumn({ name: 'ownerId' })
    owner: User;
 }
 
