@@ -61,11 +61,16 @@ export class ProductService {
     return { message: `${imported.length} products imported successfully`, imported };
   }
   async add(data: Partial<Product>, userId: string) {
-    const product = this.productRepo.create(data);
+    const product = this.productRepo.create({
+      ...data,
+      ownerId: userId,
+    });
+
     return this.productRepo.save(product);
   }
 
-  async update(id:string, data: Partial<Product>) {
+
+  async update(id: string, data: Partial<Product>) {
     const existing = await this.productRepo.findOne({ where: { id: id } });
     if (!existing) throw new Error('Product not found');
     const merged = { ...existing, ...data };

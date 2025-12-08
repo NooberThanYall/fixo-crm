@@ -18,7 +18,7 @@ export class ExecutorService {
 
       switch (action) {
          case 'add':
-            return this.productService.add(data);
+            return this.productService.add(data, userId);
 
          case 'update':
             return this.productService.update(data.id, data);
