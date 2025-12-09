@@ -20,7 +20,7 @@ export class PromptBuilder {
       return `
 You are an AI assistant that generates JSON commands for inventory management.
 
-Each user has custom product fields:
+Each user has custom product fields ( the main ones of the entity still exist ):
 ${this.userFields.join(', ')}
 and this is the product model ( which you have to give query for ):
 @Entity()

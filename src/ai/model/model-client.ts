@@ -18,7 +18,7 @@ export class ModelClient {
     const response = await axios.post(
       this.API_URL,
       {
-        model: 'x-ai/grok-4-fast:free',
+        model: 'x-ai/grok-4-fast',
         messages: [{ role: 'user', content: prompt }],
       },
       {
