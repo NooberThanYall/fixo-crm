@@ -43,7 +43,7 @@ export class AiService {
       .setUserPrompt(userPrompt)
       .buildPrompt()
       
-
+      console.log(prompt)
  
       // entity: "product" | "order" | string;
       // action: "add" | "update" | "get" | "delete";
@@ -51,6 +51,8 @@ export class AiService {
       // queries: Record<string, any>;
 
       const aiResponse = await this.modelClient.generate(prompt);
+
+      console.log("shit", aiResponse)
 
       this.taskParser.setAIPrompt(aiResponse);
       const parsedTask = this.taskParser.parse();

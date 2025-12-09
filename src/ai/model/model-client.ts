@@ -23,6 +23,7 @@ export class ModelClient {
          },
       );
 
+
       const aiMessage = response.data?.choices?.[0]?.message?.content;
       
       if(!aiMessage) throw new InternalServerErrorException()
