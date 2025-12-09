@@ -18,7 +18,7 @@ export class ModelClient {
     const response = await axios.post(
       this.API_URL,
       {
-        model: 'google/gemini-2.0-flash-exp:free',
+        model: 'allenai/olmo-3-32b-think:free',
         messages: [{ role: 'user', content: prompt }],
       },
       {
