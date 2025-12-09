@@ -7,7 +7,8 @@ export class ModelClient {
    private readonly API_URL = process.env.API_URL;
  
    async generate(prompt: string) {
-      if (!this.API_URL || this.API_KEY) return { error: 'Api Key or Url not Found!' }
+      console.log(this.API_URL, this.API_KEY)
+      if (!this.API_URL || !this.API_KEY) return { error: 'Api Key or Url not Found!' }
 
       const response = await axios.post(
          this.API_URL,

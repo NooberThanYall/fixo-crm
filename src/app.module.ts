@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { PreviewModule } from './preview/preview.module';
+import { ConfigModule } from '@nestjs/config';
 import { AuthMiddleware } from './auth/auth.middleware';
 
 @Module({
@@ -20,13 +21,17 @@ import { AuthMiddleware } from './auth/auth.middleware';
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true
   }),
-  CacheModule.register({isGlobal: true}),
-    AiModule, ProductModule, ExecutorModule, UserModule, AuthModule, PreviewModule]
+  CacheModule.register({ isGlobal: true }),
+    AiModule, ProductModule, ExecutorModule, UserModule, AuthModule, PreviewModule,
+  ConfigModule.forRoot({
+    isGlobal: true
+  })
+  ]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .forRoutes('*'); 
+      .forRoutes('*');
   }
 }
