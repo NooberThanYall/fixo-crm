@@ -14,7 +14,7 @@ import { AuthGuard } from 'src/guard/auth.guard';
 import type { Request } from 'express';
 import * as path from 'path';
 import { PreviewService } from 'src/preview/preview.service';
-
+ 
 @UseGuards(AuthGuard)
 @Controller('ai')
 export class AiController {
