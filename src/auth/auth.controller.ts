@@ -195,8 +195,8 @@ export class AuthController {
   @Get("profile")
   async profile(@Req() req: Request, @Res() res: Response) {
     const token = req.cookies?.session;
-    //@ts-expect-error fuck
-    console.log('Profile route user', req.user)
+    //@
+    console.log('Profile route user', token)
     if (!token)
       return res.status(401).json({ success: false, message: "Not logged in" });
 
