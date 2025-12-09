@@ -33,33 +33,33 @@ export class AiService {
    ) { }
 
    async promptToTask(userPrompt: string, userId: string, execute: boolean = false) {
+      try {
+         console.log("[generate] function called with prompt:", userPrompt);
+         const user = await this.userService.findById(userId);
 
-      const user = await this.userService.findById(userId);
-      
-      const userFields = user?.fields || ['name', 'price', 'stock'];
+         const userFields = user?.fields || ['name', 'price', 'stock'];
 
-      const prompt = this.promptBuilder
-      .setUserFields(userFields)
-      .setUserPrompt(userPrompt)
-      .buildPrompt()
-      
-      console.log(prompt)
- 
-      // entity: "product" | "order" | string;
-      // action: "add" | "update" | "get" | "delete";
-      // data: Record<string, any>;
-      // queries: Record<string, any>;
+         const prompt = this.promptBuilder
+            .setUserFields(userFields)
+            .setUserPrompt(userPrompt)
+            .buildPrompt();
 
-      const aiResponse = await this.modelClient.generate(prompt);
+         console.log("Built prompt:", prompt);
 
-      console.log("shit", aiResponse)
+         const aiResponse = await this.modelClient.generate(prompt);
 
-      this.taskParser.setAIPrompt(aiResponse);
-      const parsedTask = this.taskParser.parse();
+         console.log("AI raw response:", aiResponse);
 
-      return parsedTask;
+         this.taskParser.setAIPrompt(aiResponse);
+         const parsedTask = this.taskParser.parse();
 
+         return parsedTask;
+      } catch (err) {
+         console.error("promptToTask error:", err);
+         throw err;
+      }
    }
+
 
 
 

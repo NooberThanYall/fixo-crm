@@ -6,6 +6,7 @@ import {
 	UseGuards,
 	UploadedFile,
 	UseInterceptors,
+	ForbiddenException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -14,7 +15,7 @@ import { AuthGuard } from 'src/guard/auth.guard';
 import type { Request } from 'express';
 import * as path from 'path';
 import { PreviewService } from 'src/preview/preview.service';
- 
+
 @UseGuards(AuthGuard)
 @Controller('ai')
 export class AiController {
@@ -25,16 +26,20 @@ export class AiController {
 
 	@Post('')
 	async aiTask(@Body('prompt') prompt: string, @Req() req: Request) {
-		// @ts-expect-error fuck you
-		const {id: userId} = req.user;
+		console.log("nigga");
+		//@ts-expect-error fuck
+		if (!req.user) {
+			throw new ForbiddenException('User not authenticated');
+		}
 
+		//@ts-expect-error fuck
+		const { id: userId } = req.user;
 
 		const task: Task = await this.aiService.promptToTask(prompt, userId);
-
 		this.previewService.setTask(task);
-		return this.previewService.preview(userId)
-
+		return this.previewService.preview(userId);
 	}
+
 
 	@Post('voice')
 	@UseInterceptors(FileInterceptor('voice', {
