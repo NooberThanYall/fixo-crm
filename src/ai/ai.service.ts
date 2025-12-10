@@ -34,7 +34,6 @@ export class AiService {
 
    async promptToTask(userPrompt: string, userId: string, execute: boolean = false) {
       try {
-         console.log("[generate] function called with prompt:", userPrompt);
          const user = await this.userService.findById(userId);
 
          const userFields = user?.fields || ['name', 'price', 'stock'];
@@ -44,11 +43,10 @@ export class AiService {
             .setUserPrompt(userPrompt)
             .buildPrompt();
 
-         console.log("Built prompt:", prompt);
 
          const aiResponse = await this.modelClient.generate(prompt);
 
-         console.log("AI raw response:", aiResponse);
+
 
          this.taskParser.setAIPrompt(aiResponse);
          const parsedTask = this.taskParser.parse();
