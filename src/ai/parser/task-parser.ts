@@ -8,16 +8,16 @@ export class TaskParser {
 
   setAIPrompt(raw: string) {
     this.raw = raw.trim();  
-    console.log('setAiPromptfnc', this.raw)
+    // console.log('setAiPromptfnc', this.raw)
   }
 
   parse(): Task {
     const json = this.parseJSON();
-    console.log("json", json)
+    // console.log("json", json)
     const normalized = this.normalize(json);
-    console.log("normalized", normalized)
+    // console.log("normalized", normalized)
     const validated = this.validate(normalized);    
-    console.log("vaidated", validated)
+    // console.log("vaidated", validated)
 
     return validated;
   }

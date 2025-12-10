@@ -36,7 +36,7 @@ export class AiController {
 		const { id: userId } = req.user;
 
 		const task: Task = await this.aiService.promptToTask(prompt, userId);
-		console.log("controller response task", task)
+		// console.log("controller response task", task)
 		this.previewService.setTask(task);
 		return this.previewService.preview(userId);
 	}
