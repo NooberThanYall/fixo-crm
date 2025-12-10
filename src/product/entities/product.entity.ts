@@ -35,4 +35,4 @@ export type AddedProduct = Product | DeleteResult | null;
 
 // Functionality left for later
 // @Column({ nullable: true })
-// imageUrl?: string;
+// imageUrl?: string; 
