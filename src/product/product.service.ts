@@ -53,7 +53,6 @@ export class ProductService {
 
     try {
       await fs.promises.unlink(filePath);
-      console.log(`Deleted uploaded file: ${filePath}`);
     } catch (err) {
       console.error('Error deleting file:', err);
     }

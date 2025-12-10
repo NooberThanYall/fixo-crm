@@ -195,15 +195,14 @@ export class AuthController {
   @Get("profile")
   async profile(@Req() req: Request, @Res() res: Response) {
     const token = req.cookies?.session;
-    //@
-    console.log('Profile route user', token)
+
     if (!token)
       return res.status(401).json({ success: false, message: "Not logged in" });
 
 
     const payload = this.authService.decode(token);
 
-    console.log('Profile route user', payload)
+
     if (!payload)
       return res.status(401).json({ success: false, message: "Invalid token" });
 

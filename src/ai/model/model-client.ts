@@ -8,8 +8,7 @@ export class ModelClient {
  
    async generate(prompt: string) {
   try {
-    console.log("API URL:", this.API_URL)
-    console.log("API KEY:", this.API_KEY ? "FOUND" : "MISSING")
+
 
     if (!this.API_URL || !this.API_KEY) {
       return { error: 'Api Key or Url not Found!' }
@@ -29,8 +28,7 @@ export class ModelClient {
       },
     );
 
-    console.log("AI API response status:", response.status)
-    console.log("AI API response data:", response.data)
+
 
     const aiMessage = response.data?.choices?.[0]?.message?.content;
 
