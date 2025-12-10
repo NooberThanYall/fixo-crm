@@ -53,6 +53,7 @@ export class AiService {
          this.taskParser.setAIPrompt(aiResponse);
          const parsedTask = this.taskParser.parse();
 
+
          return parsedTask;
       } catch (err) {
          console.error("promptToTask error:", err);

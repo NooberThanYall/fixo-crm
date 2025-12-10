@@ -8,12 +8,17 @@ export class TaskParser {
 
   setAIPrompt(raw: string) {
     this.raw = raw.trim();  
+    console.log('setAiPromptfnc', this.raw)
   }
 
   parse(): Task {
     const json = this.parseJSON();
+    console.log("json", json)
     const normalized = this.normalize(json);
-    const validated = this.validate(normalized);
+    console.log("normalized", normalized)
+    const validated = this.validate(normalized);    
+    console.log("vaidated", validated)
+
     return validated;
   }
 
@@ -22,7 +27,7 @@ export class TaskParser {
       return JSON.parse(this.raw)
     } catch (error) {
       throw new Error('LLM returned invalid JSON.')
-    }
+    } 
   }
 
   private normalize(obj: any) {
