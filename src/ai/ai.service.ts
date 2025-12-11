@@ -36,10 +36,12 @@ export class AiService {
       try {
          const user = await this.userService.findById(userId);
 
-         const userFields = user?.fields || ['name', 'price', 'stock'];
+         // const userFields = user?.fields || ['name', 'price', 'stock'];
+
+         const productFields = ["nigg"];
 
          const prompt = this.promptBuilder
-            .setUserFields(userFields)
+            .setProductFields(productFields)
             .setUserPrompt(userPrompt)
             .buildPrompt();
 

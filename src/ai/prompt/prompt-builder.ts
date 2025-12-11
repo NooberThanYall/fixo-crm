@@ -2,11 +2,11 @@ import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class PromptBuilder {
-   private userFields: string[] = [];
+   private productFields: string[] = [];
    private userPrompt: string;
    
-   setUserFields(userFields: string[]){
-      this.userFields = userFields;
+   setProductFields(productFields: string[]){
+      this.productFields = productFields;
       return this;
    }
 
@@ -21,7 +21,7 @@ export class PromptBuilder {
 You are an AI assistant that generates JSON commands for inventory management.
 
 Each user has custom product fields ( the main ones of the entity still exist ):
-${this.userFields.join(', ')}
+${this.productFields.join(', ')}
 and this is the product model ( which you have to give query for ):
 @Entity()
 export class Product {
