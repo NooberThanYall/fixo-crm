@@ -82,8 +82,15 @@ export class ProductService {
   }
 
   async get(id: string) {
-    return this.productRepo.findOne({ where: { id } });
-  }
+    const product = await this.productRepo.findOne({ where: { id } });
+    
+    if (!product) {
+        console.log("Product not found");
+        return null; 
+    }
+
+    return {...product, ownerId: null}; 
+}
 
   async delete(id: string) {
     return this.productRepo.delete(id);
