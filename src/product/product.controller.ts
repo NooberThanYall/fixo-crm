@@ -10,7 +10,7 @@ import * as path from 'path';
 @UseGuards(AuthGuard)
 @Controller('product')
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(private readonly productService: ProductService) { }
 
   @Post()
   @UseInterceptors(
@@ -24,16 +24,26 @@ export class ProductController {
       }),
       fileFilter: (req, file, cb) => {
         if (!file.originalname.match(/\.(jpg|png|jpeg|webp)$/)) {
-          return cb(new Error('Only Excel files are allowed!'), false);
+          return cb(new Error('Only images allowed!'), false);
         }
         cb(null, true);
       },
     }),
   )
-  create(@Body() createProductDto: CreateProductDto, @Req() req: Request, @UploadedFile() file: Express.Multer.File) {
-    //@ts-expect-error fuck
+  create(
+    @Body() createProductDto: CreateProductDto,
+    @Req() req: Request,
+    @UploadedFile() file: Express.Multer.File
+  ) {
+    // attach the uploaded file path to the dto
+    if (file) {
+      createProductDto.image = file.filename; // or file.path
+    }
+
+    //@ts-expect-error fuck you
     return this.productService.add(createProductDto, req.user.id);
   }
+
 
 
   @Get(':id')
@@ -42,7 +52,7 @@ export class ProductController {
   }
 
   @Get('/owner/:ownerId')
-  getAllByOwner(@Param('ownerId') id: string){
+  getAllByOwner(@Param('ownerId') id: string) {
     return this.productService.listByUser(id)
   }
 
