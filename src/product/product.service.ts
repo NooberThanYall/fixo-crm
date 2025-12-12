@@ -15,7 +15,8 @@ export class ProductService {
     private readonly productRepo: Repository<Product>,
   ) { }
 
-  async importFromExcel(filePath: string) {
+  async importFromExcel(filePath: string, ownerId: string) {
+    console.log('service log')
     const workbook = new ExcelJS.Workbook();
     await workbook.xlsx.readFile(filePath);
     const sheet = workbook.worksheets[0];
@@ -49,7 +50,11 @@ export class ProductService {
       imported.push(product);
     });
 
-    await this.productRepo.save(imported);
+    const importedWithOwnerID = imported.map(product => {
+      return {...product, ownerId}
+    })
+
+    await this.productRepo.save(importedWithOwnerID);
 
     try {
       await fs.promises.unlink(filePath);

@@ -84,8 +84,10 @@ export class ProductController {
       },
     }),
   )
-  async importExcel(@UploadedFile() file: Express.Multer.File) {
+  async importExcel(@UploadedFile() file: Express.Multer.File, @Req() req: Request) {
+    console.log('controller log')
     if (!file) throw new Error('No file uploaded!');
-    return await this.productService.importFromExcel(file.path);
+    //@ts-expect-error fuck you
+    return await this.productService.importFromExcel(file.path, user.id);
   }
 }
