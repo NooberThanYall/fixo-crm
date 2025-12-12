@@ -88,6 +88,6 @@ export class ProductController {
     console.log('controller log')
     if (!file) throw new Error('No file uploaded!');
     //@ts-expect-error fuck you
-    return await this.productService.importFromExcel(file.path, user.id);
+    return await this.productService.importFromExcel(file.path, req.user.id);
   }
 }
