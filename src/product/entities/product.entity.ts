@@ -18,14 +18,17 @@ export class Product {
 
    @Column({ nullable: true })
    description?: string;
-   
+
    @Column({ type: 'jsonb', nullable: true })
    customFields?: Record<string, any>;
 
    @Index()
    @Column()
    ownerId: string;
-   
+
+   @Column({ type: 'text', array: true, nullable: true })
+   images?: string[];
+
    @ManyToOne(() => User, { onDelete: 'CASCADE' })
    @JoinColumn({ name: 'ownerId' })
    owner: User;
