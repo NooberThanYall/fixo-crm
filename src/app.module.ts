@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AiModule } from './ai/ai.module';
 import { ProductModule } from './product/product.module';
@@ -9,6 +10,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { PreviewModule } from './preview/preview.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthMiddleware } from './auth/auth.middleware';
+import { join } from 'path';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -21,11 +23,14 @@ import { AuthMiddleware } from './auth/auth.middleware';
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true
   }),
-  CacheModule.register({ isGlobal: true }),
     AiModule, ProductModule, ExecutorModule, UserModule, AuthModule, PreviewModule,
+  CacheModule.register({ isGlobal: true }),
   ConfigModule.forRoot({
     isGlobal: true
-  })
+  }),
+  ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+    }),
   ]
 })
 export class AppModule implements NestModule {
