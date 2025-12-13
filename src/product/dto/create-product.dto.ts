@@ -3,7 +3,7 @@ export class CreateProductDto {
    price?: number;
    stock?: number;
    description?: string;
-   image?: string;
+   images?: string[];
    customFields?: Record<string, any>;
    ownerId: string;
 }

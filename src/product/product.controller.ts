@@ -37,7 +37,7 @@ export class ProductController {
   ) {
     // attach the uploaded file path to the dto
     if (file) {
-      createProductDto.image = file.filename; // or file.path
+      createProductDto.images?.push(file.filename); // or file.path
     }
 
     //@ts-expect-error fuck you
