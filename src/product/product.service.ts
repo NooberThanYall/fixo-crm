@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
 import * as ExcelJS from 'exceljs';
@@ -51,7 +51,7 @@ export class ProductService {
     });
 
     const importedWithOwnerID = imported.map(product => {
-      return {...product, ownerId}
+      return { ...product, ownerId }
     })
 
     await this.productRepo.save(importedWithOwnerID);
@@ -68,9 +68,27 @@ export class ProductService {
     const product = this.productRepo.create({
       ...data,
       ownerId: userId,
+      
     });
 
     return this.productRepo.save(product);
+  }
+
+  async updatePhoto(id: string, image: string, userId: string) {
+
+    const product = await this.productRepo.findOne({
+      where: { id, ownerId: userId },
+    });
+
+    if (!product) throw new NotFoundException("محصولی یافت نشد!");
+
+    if (!product.images) product.images = [];
+
+    product.images.push(image)
+
+
+    return this.productRepo.save(product)
+
   }
 
 
@@ -83,14 +101,14 @@ export class ProductService {
 
   async get(id: string) {
     const product = await this.productRepo.findOne({ where: { id } });
-    
+
     if (!product) {
-        console.log("Product not found");
-        return null; 
+      console.log("Product not found");
+      return null;
     }
 
-    return {...product, ownerId: null}; 
-}
+    return { ...product, ownerId: null };
+  }
 
   async delete(id: string) {
     return this.productRepo.delete(id);

@@ -43,6 +43,35 @@ export class ProductController {
     //@ts-expect-error fuck you
     return this.productService.add(createProductDto, req.user.id);
   }
+  @Post(':id/image')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads/images',
+        filename: (req, file, cb) => {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
+        },
+      }),
+      fileFilter: (req, file, cb) => {
+        if (!file.originalname.match(/\.(jpg|png|jpeg|webp)$/)) {
+          return cb(new Error('Only images allowed!'), false);
+        }
+        cb(null, true);
+      },
+    }),
+  )
+  async updatePhoto(
+    @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: Request
+  ) {
+    const imagePath = `/uploads/images/${file.filename}`;
+
+    // @ts-expect-error user injected by auth guard
+    return this.productService.updatePhoto(id, imagePath, req.user.id);
+  }
+
 
 
 
