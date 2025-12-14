@@ -29,8 +29,10 @@ import { join } from 'path';
     isGlobal: true
   }),
   ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
-    }),
+    rootPath: join(process.cwd(), 'uploads'),
+    serveRoot: '/uploads',
+  }),
+
   ]
 })
 export class AppModule implements NestModule {

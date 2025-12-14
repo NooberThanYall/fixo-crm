@@ -37,8 +37,13 @@ export class ProductController {
   ) {
     // attach the uploaded file path to the dto
     if (file) {
-      createProductDto.images?.push(file.filename); // or file.path
+      createProductDto.images = [
+        `/uploads/images/${file.filename}`,
+      ];
     }
+
+
+    console.log('dto:', createProductDto)
 
     //@ts-expect-error fuck you
     return this.productService.add(createProductDto, req.user.id);
