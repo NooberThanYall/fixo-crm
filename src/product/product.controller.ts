@@ -108,9 +108,21 @@ export class ProductController {
       },
     }),
   )
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto, @UploadedFile() file: Express.Multer.File) {
+  update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    if (file) {
+      updateProductDto.images = [
+        ...(updateProductDto.images ?? []),
+        `/uploads/images/${file.filename}`,
+      ];
+    }
+
     return this.productService.update(id, updateProductDto);
   }
+
 
   @Delete(':id')
   remove(@Param('id') id: string) {

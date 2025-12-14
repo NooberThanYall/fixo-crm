@@ -4,6 +4,6 @@ export class UpdateProductDto {
    price?: number;
    stock?: number;
    description?: string;
-   imageUrl?: string;
+   images: string[];
    customFields?: Record<string, any>;
 }
