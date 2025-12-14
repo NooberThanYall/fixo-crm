@@ -108,7 +108,7 @@ export class ProductController {
       },
     }),
   )
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto, @UploadedFile() file: Express.Multer.File) {
     return this.productService.update(id, updateProductDto);
   }
 
