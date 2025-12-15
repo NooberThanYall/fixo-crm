@@ -2,6 +2,8 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Index, JoinColumn } 
 import { User } from 'src/user/entities/user.entity';
 import { DeleteResult } from 'typeorm/browser';
 
+
+
 @Entity()
 export class Product {
    @PrimaryGeneratedColumn('uuid')
