@@ -124,8 +124,8 @@ export class AuthController {
     // 6. set cookie (httpOnly = unreadable by browser JS)
     res.cookie("session", token, {
       httpOnly: true,
-      secure: true, 
-      sameSite: "none",
+      secure: false, 
+      sameSite: "lax",
       partitioned: true, 
       maxAge: 1000 * 60 * 60 * 24 * 7, 
     });
@@ -180,8 +180,8 @@ export class AuthController {
 
     res.cookie("session", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: false,
+      sameSite: "lax",
       partitioned: true,
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     });
