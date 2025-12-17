@@ -10,6 +10,9 @@ export class UserController {
 
   @Post('')
   async updateUser(@Body() body:Partial<User>, @Req() req: Request) {
-    const newUser = this.userService.update(req.user.id ,body)
+    //@ts-expect-error fuck you
+    const newUser = this.userService.update(req.user.id ,body);
+
+    return {...newUser, password: null, id: null}
   }
 }
