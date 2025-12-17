@@ -134,7 +134,7 @@ export class AuthController {
     return res.json({
       success: true,
       message: "Logged in",
-      user: { ...user, password: null },
+      user: { ...user, password: null, id: null },
       isNewUser,
     });
   }
@@ -208,7 +208,7 @@ export class AuthController {
 
     //@ts-expect-error fuck ya
     const user: User = await this.userService.findById(payload.id);
-    return res.json({ user: { ...user, password: null } });
+    return res.json({ user: { ...user, password: null, id: null } });
   }
 
 
