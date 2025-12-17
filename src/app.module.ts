@@ -11,6 +11,7 @@ import { PreviewModule } from './preview/preview.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthMiddleware } from './auth/auth.middleware';
 import { join } from 'path';
+import { SupportModule } from './support/support.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -32,6 +33,7 @@ import { join } from 'path';
     rootPath: join(process.cwd(), 'uploads'),
     serveRoot: '/uploads',
   }),
+  SupportModule,
 
   ]
 })
